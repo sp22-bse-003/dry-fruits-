@@ -27,14 +27,32 @@ export const viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "DryFruits.pk - Buy Premium Dry Fruits Online in Pakistan",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://dryfruits-ecommerce.vercel.app'),
+  title: {
+    default: "DryFruits.pk - Buy Premium Dry Fruits Online in Pakistan",
+    template: "%s | DryFruits.pk"
+  },
   description:
     "Pakistan's trusted online dry fruits store. Premium almonds, dates, cashews, walnuts & more. Direct from Gilgit-Baltistan & Balochistan growers. Free delivery on orders over Rs.5000. Cash on delivery available.",
   keywords: "dry fruits Pakistan, buy dry fruits online, almonds Pakistan, dates online, cashews, walnuts, chilgoza, gift packs, bulk dry fruits",
+  authors: [{ name: "DryFruits.pk" }],
+  creator: "DryFruits.pk",
+  publisher: "DryFruits.pk",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: "DryFruits.pk - Premium Dry Fruits Online Pakistan",
     description: "Buy premium quality dry fruits online. Direct from growers. Free delivery. Cash on delivery.",
-    url: "https://dryfruits.pk",
+    url: "/",
     siteName: "DryFruits.pk",
     locale: "en_PK",
     type: "website",
@@ -43,6 +61,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DryFruits.pk - Premium Dry Fruits Pakistan",
     description: "Buy premium dry fruits online in Pakistan. Direct from growers.",
+  },
+  verification: {
+    google: 'your-google-verification-code', // Add this after verifying with Google Search Console
+    // yandex: 'your-yandex-verification-code',
+    // bing: 'your-bing-verification-code',
+  },
+  alternates: {
+    canonical: '/',
   },
 }
 

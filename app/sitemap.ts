@@ -1,46 +1,52 @@
 import { MetadataRoute } from 'next'
- 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://dryfruits.pk'
+import { products } from '@/lib/products'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://dryfruits-ecommerce.vercel.app'
   
   // Static pages
-  const staticPages = [
+  const staticRoutes = [
     '',
     '/products',
     '/about',
     '/bulk-orders',
     '/gift-packs',
-    '/cart',
-    '/auth/signin',
-  ].map((route) => ({
+  ]
+  
+  const staticPages = staticRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // Dynamic product pages - using actual product slugs
-  const productSlugs = [
-    'premium-almonds',
-    'ajwa-dates',
-    'chilgoza-pine-nuts',
-    'kashmir-walnuts',
-    'cashew-nuts',
-    'dried-apricots',
-    'pistachios',
-    'mixed-dry-fruits',
-    'medjool-dates',
-    'dried-figs',
-    'raisins',
-    'brazil-nuts',
-  ]
-
-  const productPages = productSlugs.map((slug) => ({
-    url: `${baseUrl}/products/${slug}`,
+  // Dynamic product pages - fetch from actual products data
+  const productPages = products.map((product) => ({
+    url: `${baseUrl}/products/${product.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
 
-  return [...staticPages, ...productPages]
+  // Fetch gift packs from Firebase
+  let giftPackPages: MetadataRoute.Sitemap = []
+  try {
+    const { db } = await import('@/lib/firebase')
+    const { collection, getDocs } = await import('firebase/firestore')
+    
+    const giftPacksSnapshot = await getDocs(collection(db, 'giftPacks'))
+    giftPackPages = giftPacksSnapshot.docs.map((doc) => {
+      const data = doc.data()
+      return {
+        url: `${baseUrl}/gift-packs/${data.slug || doc.id}`,
+        lastModified: data.updatedAt?.toDate() || new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching gift packs for sitemap:', error)
+  }
+
+  return [...staticPages, ...productPages, ...giftPackPages]
 }
