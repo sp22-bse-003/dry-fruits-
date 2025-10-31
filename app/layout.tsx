@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     description: "Buy premium dry fruits online in Pakistan. Direct from growers.",
   },
   verification: {
-    google: 'your-google-verification-code', // Add this after verifying with Google Search Console
+    google: 'google9a3ee0fc1b6ce35d',
     // yandex: 'your-yandex-verification-code',
     // bing: 'your-bing-verification-code',
   },
