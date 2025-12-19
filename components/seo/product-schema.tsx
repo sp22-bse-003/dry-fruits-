@@ -9,6 +9,17 @@ type ProductSchemaProps = {
 }
 
 export function ProductSchema({ product, siteUrl }: ProductSchemaProps) {
+  // Use custom AI-generated schema if available
+  if (product.schema) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: product.schema }}
+      />
+    )
+  }
+
+  // Otherwise, generate default schema
   const productUrl = `${siteUrl}/products/${product.slug}`
 
   const schema = {

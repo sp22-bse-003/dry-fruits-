@@ -13,11 +13,10 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const items = useCartStore((state) => state.items)
-  // Avoid hydration mismatch by only reading persisted state after mount
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   const totalItems = mounted ? items.reduce((sum, item) => sum + item.quantity, 0) : 0
-
+  
   return (
     <header className="sticky top-0 z-50 w-full border-b-2 border-primary/10 bg-white/90 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/85 shadow-lg">
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
@@ -93,7 +92,7 @@ export function Header() {
               variant="ghost"
               size="icon"
               className="lg:hidden hover:bg-primary/10 rounded-full h-10 w-10"
-             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>

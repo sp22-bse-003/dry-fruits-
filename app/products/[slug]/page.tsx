@@ -1,6 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { OptimizedImage } from "@/components/optimized-image"
+import { ProductFAQs } from "@/components/product-faq"
 import type { Product } from "@/lib/products"
 import { formatNumber } from "@/lib/utils"
 import { AddToCartButton } from "@/components/add-to-cart-button"
@@ -97,7 +98,7 @@ export default async function ProductDetailsPage({ params }: PageProps) {
               <div className="relative w-full h-[400px] overflow-hidden rounded-lg border">
                 <OptimizedImage
                   src={product.image || "/placeholder.svg"}
-                  alt={`High-quality ${product.name} - a premium dry fruit available in Pakistan`}
+                  alt={product.imageAlt || `High-quality ${product.name} - a premium dry fruit available in Pakistan`}
                   fill
                   className="object-cover"
                   priority
@@ -128,6 +129,9 @@ export default async function ProductDetailsPage({ params }: PageProps) {
             </div>
           </div>
         </section>
+        {product.faqs && product.faqs.length > 0 && (
+          <ProductFAQs faqs={product.faqs} />
+        )}
       </main>
       <Footer />
     </div>

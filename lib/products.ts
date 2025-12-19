@@ -13,6 +13,11 @@ export interface ProductMeta {
   ogImage?: string
 }
 
+export interface ProductFAQ {
+  question: string
+  answer: string
+}
+
 export type Product = {
   id: string
   name: string
@@ -20,11 +25,14 @@ export type Product = {
   price: number
   weight: string
   image: string
+  imageAlt?: string
   description?: string
   rating?: number
   reviewCount?: number
   reviews?: Review[]
   meta?: ProductMeta
+  faqs?: ProductFAQ[]
+  schema?: string
   inStock?: boolean
   stockQuantity?: number
   sku?: string
